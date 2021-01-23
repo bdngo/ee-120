@@ -1,5 +1,9 @@
 \documentclass{article}
 \usepackage{eecstex}
+\usepackage{pgfplots}
+
+\renewcommand{\thesection}{\Alph{section}}
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 
 \title{EE 120 HW 01}
 \author{Bryan Ngo}
@@ -79,10 +83,198 @@
     \item Yes, \(T = 2\)
     \item No
     \item Yes, \(T = 4 \pi\)
+    \item No
+    \item No
+    \item Yes, \(T = \frac{14}{6} = \frac{7}{3}\)
 \end{enumerate}
 
 \section{Signal Transformation}
 
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-3, xmax=7,
+        ymin=-1, ymax=3,
+        xtick={0, 3, 5},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x(t)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (-2, 0)
+        (0, 0)
+        (0, 2)
+        (3, 0)
+        (3, 2)
+        (5, 0)
+        (7, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
 
+\subsection{}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-7, xmax=3,
+        ymin=-1, ymax=3,
+        xtick={0, -3, -5},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x(-t)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (2, 0)
+        (0, 0)
+        (0, 2)
+        (-3, 0)
+        (-3, 2)
+        (-5, 0)
+        (-7, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-3, xmax=15,
+        ymin=-1, ymax=3,
+        xtick={0, 6, 10},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x(2t)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (-2, 0)
+        (0, 0)
+        (0, 2)
+        (6, 0)
+        (6, 2)
+        (10, 0)
+        (14, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-3, xmax=10,
+        ymin=-1, ymax=3,
+        xtick={2, 5, 7},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x(t + 2)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (-2, 0)
+        (2, 0)
+        (2, 2)
+        (5, 0)
+        (5, 2)
+        (7, 0)
+        (9, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-3, xmax=7,
+        ymin=-1, ymax=3,
+        xtick={-1, 0.5, 1.5},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x\left(\frac{t}{2} - 1\right)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (-2, 0)
+        (-1, 0)
+        (-1, 2)
+        (0.5, 0)
+        (0.5, 2)
+        (1.5, 0)
+        (7, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
+
+\subsection{}
+
+\begin{tikzpicture}
+    \begin{axis}[
+        grid=both,
+        xmin=-15, xmax=5,
+        ymin=-1, ymax=3,
+        xtick={1, -8, -14},
+        ytick={0, 2},
+        axis lines=middle,
+        xlabel=\(x\), ylabel=\(y\),
+        title=\(x\left(\frac{t}{2} - 1\right)\)
+    ]
+    \addplot[
+        color=blue,
+        mark=none,
+    ]
+    coordinates {
+        (5, 0)
+        (1, 0)
+        (1, 2)
+        (-8, 0)
+        (-8, 2)
+        (-14, 0)
+        (-15, 0)
+    };
+    \end{axis}
+\end{tikzpicture}
+
+\section{Integral Review}
+
+\subsection{}
+
+\begin{equation}
+    \int_{-1}^\infty e^{-2t} \, dt = \left.-\frac{1}{2} e^{-2t}\right|_{-1}^\infty = -\frac{1}{2} \lim_{R \to \infty} (\cancelto{0}{e^{-2R}} - e^2) = \frac{e^2}{2}
+\end{equation}
+
+\subsection{}
+
+\begin{align}
+    y(t) &= \int_{-\infty}^\infty u(\tau) e^{-u(t - \tau)} u(t - \tau) \, d\tau \\
+    &= \int_0^\infty e^{-u(t - \tau)} u(t - \tau) \, d\tau
+\end{align}
 
 \end{document}
