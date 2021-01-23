@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{eecstex}
+
+\title{EE 120 HW 01}
+\author{Bryan Ngo}
+\date{2021-01-22}
+
+\begin{document}
+
+\maketitle
+
+\section{Euler's Formula}
+
+\begin{equation}
+    e^{i \theta} = \cos(\theta) + i \sin(\theta)
+\end{equation}
+
+\subsection{}
+
+\begin{theorem}
+    \begin{equation}
+        \cos(\theta) = \frac{e^{i \theta} + e^{-i \theta}}{2}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    \begin{align}
+        e^{-i \theta} &= \cos(-\theta) + i \sin(-\theta) \\
+        &= \cos(\theta) - i \sin(\theta) \\
+        &\Rightarrow e^{i \theta} + e^{-i \theta} = 2 \cos(\theta) \\
+        &\Rightarrow \cos(\theta) = \frac{e^{i \theta} + e^{-i \theta}}{2}
+    \end{align}
+\end{proof}
+\begin{theorem}
+    \begin{equation}
+        \sin(\theta) = \frac{e^{i \theta} - e^{-i \theta}}{2}
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    \begin{align}
+        e^{-i \theta} &= \cos(\theta) - i \sin(\theta) \\
+        &\Rightarrow e^{i \theta} - e^{-i \theta} = 2 \sin(\theta) \\
+        &\Rightarrow \sin(\theta) = \frac{e^{i \theta} - e^{-i \theta}}{2}
+    \end{align}
+\end{proof}
+
+\subsection{}
+
+\begin{theorem}
+    \begin{equation}
+        (\cos(\theta) + i \sin(\theta))^n = \cos(n \theta) + i \sin(n \theta)
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    \begin{equation} 
+        (\cos(\theta) + i \sin(\theta))^n = (e^{i \theta})^n = e^{i n \theta} = \cos(n \theta) + i \sin(n \theta)
+    \end{equation}
+\end{proof}
+
+\subsection{}
+
+\begin{theorem}
+    \begin{equation}
+        \sum_{k \in [1, N]} A_k \cos(\omega t + \phi_k) = A \cos(\omega t + \phi)
+    \end{equation}
+\end{theorem}
+\begin{proof}
+    \begin{align}
+        \sum_{k \in [1, N]} A_k \cos(\omega t + \phi_k) &= \sum_{k \in [1, N]} A_k \frac{e^{i (\omega t + \phi_k)} + e^{-i (\omega t + \phi_k)}}{2} \\
+        &= \sum_{k \in [1, N]} A_k e^{i \phi_k} \frac{e^{i \omega t} + e^{-i \omega t}}{2} \\
+        &= \cos(\omega t) \sum_{k \in [1, N]} A_k e^{i \phi_k} \\
+        &= \cos(\omega t) A e^{i \phi_k} = A \cos(\omega t + \phi_k)
+    \end{align}
+\end{proof}
+
+\section{Periodicity of Signals}
+
+\begin{enumerate}
+    \item Yes, \(T = \frac{\pi}{2}\)
+    \item Yes, \(T = 2\)
+    \item No
+    \item Yes, \(T = 4 \pi\)
+\end{enumerate}
+
+\section{Signal Transformation}
+
+
+
+\end{document}
