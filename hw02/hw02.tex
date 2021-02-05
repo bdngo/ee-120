@@ -1,5 +1,6 @@
 \documentclass{article}
 \usepackage{eecstex}
+\usepackage{pgfplots}
 
 \title{EE 120 HW 02}
 \author{Bryan Ngo}
@@ -160,7 +161,7 @@ The system is \textbf{not memoryless}, since \(y[n]\) depends on \(x[n - 1]\).
 \subsection{}
 
 \begin{center}
-    \includegraphics[width=0.7\textwidth]{q4-1.png}
+    \includegraphics[width=0.7\textwidth]{q3-1.png}
 \end{center}
 
 \subsection{}
@@ -169,8 +170,8 @@ In the homogeneous case, assume the solution is in the form \(y_h[n] = A \lambda
 Then,
 \begin{align}
     A\lambda^n - \alpha A \lambda^{n - N} &= 0 \\
-    \Rightarrow 1 - \alpha \lambda^{-N} &= 0 \\
-    \Rightarrow \lambda &= \left(\frac{1}{\alpha}\right)^{-\frac{1}{N}} \implies y_h[n] = A \left(\frac{1}{\alpha}\right)^{n - N}
+    1 - \alpha \lambda^{-N} &= 0 \\
+    \Rightarrow \lambda = \alpha^{\frac{1}{N}} &\implies y_h[n] = A \alpha^{\frac{n}{N}}
 \end{align}
 Finding the particular solution, consider the following time step and outputs:
 \begin{equation}
@@ -178,16 +179,92 @@ Finding the particular solution, consider the following time step and outputs:
         \hline
         n & f_p[n] \\
         \hline
-        <0 & 0 \\
-        0 & f[0] + \alpha \cancelto{0}{f[-N]} = 1 \\
-        1 & f[1] + \alpha f[1 - N] = 1 \\
+        0 & f[0] - \alpha \cancelto{0}{f[-N]} = 1 \\
+        N & f[N] = \alpha f[0] = \alpha \\
+        2N & f[2N] = \alpha f[N] = \alpha^2 \\
+        \vdots & \vdots \\
         \hline
     \end{array}
 \end{equation}
+Meaning that \(f_p[n] = \alpha^{\frac{n}{N}}u[n]\).
+Our general solution is \(f[n] = \alpha^{\frac{n}{N}} (A + u[n])\).
+Given the initial condition \(f[-1] = 0\),
+\begin{equation}
+    0 = A \alpha^{-\frac{1}{N}} \implies A = 0
+\end{equation}
+giving us a final equation of \(f[n] = \alpha^{\frac{n}{N}} u[n]\).
 
 \subsection{}
 
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(n\), ylabel={\(f[n]\)},
+            title={DT IIR Filter (\(\alpha = \frac{1}{2}, N = 2\))},
+            axis lines=middle,
+            ymin=0, ymax=1,
+            width=0.4\textwidth
+        ]
+        \addplot[ycomb, mark=*, color=blue] table[
+            col sep=comma,
+            x=n, y=3a
+        ]{q3-3.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(n\), ylabel={\(f[n]\)},
+            title={DT IIR Filter (\(\alpha = \frac{1}{\sqrt{2}}, N = 2\))},
+            axis lines=middle,
+            ymin=0, ymax=1,
+            width=0.4\textwidth
+        ]
+        \addplot[ycomb, mark=*, color=blue] table[
+            col sep=comma,
+            x=n, y=3b
+        ]{q3-3.csv};
+        \end{axis}
+    \end{tikzpicture}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(n\), ylabel={\(f[n]\)},
+            title={DT IIR Filter (\(\alpha = \frac{1}{2}, N = 4\))},
+            axis lines=middle,
+            ymin=0, ymax=1,
+            width=0.4\textwidth
+        ]
+        \addplot[ycomb, mark=*, color=blue] table[
+            col sep=comma,
+            x=n, y=3c
+        ]{q3-3.csv};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+The value \(\alpha\) affects how steep the decay of the system is, and \(N\) has the same effect.
+
 \subsection{}
+
+The equation is
+\begin{equation}
+    y[n] = y[n - 1] + u[n]
+\end{equation}
+The homogeneous response, given our parameters, is simply \(y_h[n] = A\).
+The particular response is
+\begin{equation}
+    \begin{array}[]{||c|c||}
+        \hline
+        n & y_p[n] \\
+        \hline
+        0 & f[0] = \cancelto{0}{f[-N]} + 1 = 1 \\
+        1 & f[1] = f[0] + 1 = 2 \\
+        2 & f[2] = f[1] + 1 = 3 \\
+        \vdots & \vdots \\
+        \hline
+    \end{array}
+\end{equation}
+giving us a particular solution of \(y_p[n] = (n + 1) u[n]\).
+The general formula is \(y[n] = A + (n + 1) u[n]\).
+Given the initial condition \(y[-1] = 0\), we get that \(A = 0\), so \(y[n] = (n + 1) u[n]\).
 
 \section{Continuous Time LCCDE Practice}
 
