@@ -106,7 +106,7 @@ Let \(y_1[n] = \sum_{k \in [0, 4]} (-1)^k x_1[n - k]\) and \(y_2[n] = \sum_{k \i
 \end{align}
 \textbf{Proving time invariance},
 \begin{equation}
-    \sum_{k \in [0, 4]} (-1)^k x[(n - n_0) - k] = y[n - n_0]
+    \sum_{k \in [0, 4]} (-1)^k x[(n - n_0) - k] = \sum_{k \in [0, 4]} (-1)^k x[(n - k) - n_0] = y[n - n_0]
 \end{equation}
 The system is \textbf{not memoryless}, since, for example, \(y[0]\) depends on \(x[-1]\).
 The impulse response is
@@ -148,7 +148,7 @@ Let \(y_1[n] = x_1[n] + \frac{1}{2} (x_1[n - 1])^2\) and \(y_2[n] = x_2[n] + \fr
 \end{align}
 \textbf{Proving time invariance},
 \begin{equation}
-    x[n - n_0] + \frac{1}{2} (x[(n - n_0) - 1])^2 = y[n - n_0]
+    x[n - n_0] + \frac{1}{2} (x[(n - n_0) - 1])^2 = x[n - n_0] + \frac{1}{2} (x[(n - 1) - n_0])^2 = y[n - n_0]
 \end{equation}
 The system is \textbf{not memoryless}, since \(y[n]\) depends on \(x[n - 1]\).
 
