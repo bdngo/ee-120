@@ -81,16 +81,11 @@ Let \(y_1[n] = \sum_{k \in [1, n]} x_1[k]\) and \(y_2[n] = \sum_{k \in [1, n]} x
     &= \alpha \sum_{k \in [1, n]} x_1[k] + \beta \sum_{k \in [1, n]} x_2[k] \\
     &= \alpha y_1[n] + \beta y_2[n]
 \end{align}
-\textbf{Proving time invariance},
+\textbf{Disproving time invariance},
 \begin{equation}
-    \sum_{k \in [1, n - n_0]} x[k] = y[n - n_0]
+    \sum_{k \in [1, n - n_0]} x[k] = x[1] + x[2] + \cdots + x[n - n_0] \neq y[n - n_0] = \sum_{k \in [1, n]} x[k - n_0]
 \end{equation}
 The system is \textbf{not memoryless}, since the sum is inherently dependent on past values of \(x[k]\).
-The impulse response is
-\begin{equation}
-    h[n] = \sum_{k \in [1, n]} \delta[k] = 0
-\end{equation}
-assuming \(n \geqslant 1\).
 
 \subsection{}
 
