@@ -186,13 +186,16 @@ Finding the particular solution, consider the following time step and outputs:
         \hline
     \end{array}
 \end{equation}
-Meaning that \(f_p[n] = \alpha^{\frac{n}{N}}u[n]\).
-Our general solution is \(f[n] = \alpha^{\frac{n}{N}} (A + u[n])\).
+Accounting for the cases where \(n\) is not a multiple of \(N\), we get
+\begin{equation}
+    f_p[n] = \sum_{k \geqslant 0} \alpha^k \delta[n - kN]
+\end{equation}
+Our general solution is \(f[n] = A \alpha^{\frac{n}{N}} + \sum_{k \geqslant 0} \alpha^k \delta[n - kN]\).
 Given the initial condition \(f[-1] = 0\),
 \begin{equation}
     0 = A \alpha^{-\frac{1}{N}} \implies A = 0
 \end{equation}
-giving us a final equation of \(f[n] = \alpha^{\frac{n}{N}} u[n]\).
+giving us a final equation of \(f[n] = \sum_{k \geqslant 0} \alpha^k \delta[n - kN]\).
 
 \subsection{}
 
@@ -240,7 +243,7 @@ giving us a final equation of \(f[n] = \alpha^{\frac{n}{N}} u[n]\).
         \end{axis}
     \end{tikzpicture}
 \end{center}
-The value \(\alpha\) affects how steep the decay of the system is, and \(N\) has the same effect.
+The value \(\alpha\) affects how steep the decay of the system is, and \(N\) has the same effect, essentially "lengthening" the sampling period of the system.
 
 \subsection{}
 

@@ -2,7 +2,7 @@ import numpy as np
 from csv import writer
 
 pts = np.arange(-2, 15)
-f = lambda a, N: lambda n: np.power(a, n / N) * int(n >= 0)
+f = lambda a, N: lambda n: np.power(a, n) * int(n % N == 0)
 vals_a = map(f(0.5, 2), pts)
 vals_b = map(f(1 / np.sqrt(2), 2), pts)
 vals_c = map(f(0.5, 4), pts)
