@@ -312,8 +312,70 @@ which are clearly not equal.
 \begin{align}
     x(t) \ast g(t) &= \int_{\R} x(\tau) e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau \\
     &= \int_0^3 2e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau \\
-    &= \int_t^{t - 3} -2e^{-\frac{v}{2}} u(v) \, dv \\
+    &= \int_0^t 2e^{-\frac{1}{2} (t - \tau)} \, d\tau + \cancelto{0}{\int_t^3 2e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau} \\
+    &= \left.4e^{-\frac{1}{2} (t - \tau)}\right|_0^t = 4(1 - e^{-\frac{1}{2} t})
 \end{align}
+Plotting the convolution,
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(t\), ylabel={\(4e^{-\frac{1}{2} t} - 4\)},
+            axis lines=middle,
+            xmin=-2, xmax=4,
+            title={\((x \ast g)(t)\)},
+            width=0.4\textwidth
+        ]
+        \addplot[
+            color=blue,
+        ]{4 - 4*exp(-x/2)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection{}
+
+\begin{align}
+    x(t) \circ g(t) &= \int_{\R} x(\tau) e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau \\
+    &= \int_0^3 2e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau \\
+    &= \cancelto{0}{\int_0^{-t} 2e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau} + \int_{-t}^3 2e^{-\frac{1}{2} (t + \tau)} \, d\tau \\
+    &= \left.-4e^{-\frac{1}{2} (t + \tau)}\right|_{-t}^3 = -4(e^{-\frac{1}{2} (t + 3)} - 1)
+\end{align}
+Plotting the cross-correlation,
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(t\), ylabel={\(-4(e^{-\frac{1}{2} (t + 3)} - 1)\)},
+            axis lines=middle,
+            title={\((x \circ g)(t)\)},
+            width=0.4\textwidth
+        ]
+        \addplot[
+            color=blue,
+        ]{4 - 4*exp(-(x + 3) / 2)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection{}
+
+\begin{align}
+    g(t) \circ x(t) &= \int_{\R} e^{-\frac{1}{2} \tau} u(\tau) x(t + \tau) \, d\tau \\
+\end{align}
+Plotting the cross-correlation,
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(t\), ylabel={\(-4(e^{-\frac{1}{2} (t + 3)} - 1)\)},
+            axis lines=middle,
+            title={\((x \circ g)(t)\)},
+            width=0.4\textwidth
+        ]
+        \addplot[
+            color=blue,
+        ]{4 - 4*exp(-(x + 3) / 2)};
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
 
 \section{Convolution Practice}
 
