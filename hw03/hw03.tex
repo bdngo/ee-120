@@ -53,7 +53,7 @@
 \begin{equation}
     \sum_{k \in \Z} k (0.6)^k u[k] = \sum_{k \geqslant 0} k (0.6)^k
 \end{equation}
-Observe that the series converges. \\ % TODO: how?
+Observe that the series converges since the exponential \(0.6^k\) term converges much faster than the linear term. \\ % TODO: how?
 \textbf{Causality}: The system is causal since \(h[n] = 0\) for \(n < 0\), for example.
 
 \subsection{}
@@ -312,22 +312,32 @@ which are clearly not equal.
 \begin{align}
     x(t) \ast g(t) &= \int_{\R} x(\tau) e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau \\
     &= \int_0^3 2e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau \\
-    &= \int_0^t 2e^{-\frac{1}{2} (t - \tau)} \, d\tau + \cancelto{0}{\int_t^3 2e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau} \\
-    &= \left.4e^{-\frac{1}{2} (t - \tau)}\right|_0^t = 4(1 - e^{-\frac{1}{2} t})
+    &= 2e^{-\frac{1}{2} t} \left.2e^{\frac{1}{2} \tau}\right|_0^3 \\
+    &\Rightarrow \int_0^t 2e^{-\frac{1}{2} (t - \tau)} \, d\tau + \cancelto{0}{\int_t^3 2e^{-\frac{1}{2} (t - \tau)} u(t - \tau) \, d\tau} \\
+    &=
+    \begin{cases}
+        2e^{-\frac{1}{2} t} (2e^{\frac{3}{2}} - 2) & t \geqslant 3 \\
+        4(1 - e^{-\frac{1}{2} t}) & t \in (0, 3) \\
+        0 & \text{elsewhere}
+    \end{cases}
 \end{align}
 Plotting the convolution,
 \begin{center}
     \begin{tikzpicture}
         \begin{axis}[
-            xlabel=\(t\), ylabel={\(4e^{-\frac{1}{2} t} - 4\)},
+            xlabel=\(t\),
             axis lines=middle,
-            xmin=-2, xmax=4,
             title={\((x \ast g)(t)\)},
             width=0.4\textwidth
         ]
         \addplot[
             color=blue,
-        ]{4 - 4*exp(-x/2)};
+            domain=3:8
+        ]{2*exp(-1/2 * x) * (2*exp(3/2) - 2)};
+        \addplot[
+            color=blue,
+            domain=0:3
+        ]{4 - 4*exp(-1/2 * x)};
         \end{axis}
     \end{tikzpicture}
 \end{center}
@@ -337,21 +347,33 @@ Plotting the convolution,
 \begin{align}
     x(t) \circ g(t) &= \int_{\R} x(\tau) e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau \\
     &= \int_0^3 2e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau \\
-    &= \cancelto{0}{\int_0^{-t} 2e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau} + \int_{-t}^3 2e^{-\frac{1}{2} (t + \tau)} \, d\tau \\
-    &= \left.-4e^{-\frac{1}{2} (t + \tau)}\right|_{-t}^3 = -4(e^{-\frac{1}{2} (t + 3)} - 1)
+    &= 2e^{-\frac{1}{2} t} \left.-2e^{-\frac{1}{2} \tau}\right|_0^3 \\
+    &\Rightarrow \cancelto{0}{\int_0^{-t} -2e^{-\frac{1}{2} (t + \tau)} u(t + \tau) \, d\tau} + \int_{-t}^3 2e^{-\frac{1}{2} (t + \tau)} \, d\tau \\
+    &= \left.-4e^{-\frac{1}{2} (t + \tau)}\right|_{-t}^3 = -4(e^{-\frac{1}{2} (t + 3)} - 1) \\
+    &=
+    \begin{cases}
+        -2e^{-\frac{1}{2} t} (2e^{-\frac{3}{2}} - 2) & t \geqslant 0 \\
+        -4(e^{-\frac{1}{2} (t + 3)} - 1) & t \in (-3, 0) \\
+        0 & \text{elsewhere}
+    \end{cases}
 \end{align}
 Plotting the cross-correlation,
 \begin{center}
     \begin{tikzpicture}
         \begin{axis}[
-            xlabel=\(t\), ylabel={\(-4(e^{-\frac{1}{2} (t + 3)} - 1)\)},
+            xlabel=\(t\),
             axis lines=middle,
             title={\((x \circ g)(t)\)},
             width=0.4\textwidth
         ]
         \addplot[
             color=blue,
+            domain=-3:0
         ]{4 - 4*exp(-(x + 3) / 2)};
+        \addplot[
+            color=blue,
+            domain=0:5
+        ]{-2*exp(-1/2 * x) * (2*exp(-3/2) - 2)};
         \end{axis}
     \end{tikzpicture}
 \end{center}
@@ -362,20 +384,31 @@ Plotting the cross-correlation,
     g(t) \circ x(t) &= \int_{\R} e^{-\frac{1}{2} \tau} u(\tau) x(t + \tau) \, d\tau \\
     &= \int_0^\infty e^{-\frac{1}{2} \tau} x(t + \tau) \, d\tau \\
     &= \int_{-t}^{3 - t} 2e^{-\frac{1}{2} \tau} \, d\tau \\
-    &= \left.-4e^{-\frac{1}{2} \tau}\right|_{-t}^{3 - t} = -4(e^{\frac{1}{2} (t - 3)} - e^{\frac{1}{2} t}) = -4e^{\frac{t}{2} t} (e^{-\frac{3}{2}} - 1)
+    &= \left.-4e^{-\frac{1}{2} \tau}\right|_{-t}^{3 - t} = -4(e^{\frac{1}{2} (t - 3)} - e^{\frac{1}{2} t}) \\
+    &=
+    \begin{cases}
+        4e^{-\frac{t}{2} t} (e^{-\frac{3}{2}} - 1) & t \leqslant 0 \\
+        -2e^{\frac{1}{2} t} (2e^{-\frac{3}{2}} - 2) & t \in (0, 3) \\
+        0 & \text{elsewhere}
+    \end{cases}
 \end{align}
 Plotting the cross-correlation,
 \begin{center}
     \begin{tikzpicture}
         \begin{axis}[
-            xlabel=\(t\), ylabel={\(-4e^{\frac{t}{2} t} (e^{-\frac{3}{2}} - 1)\)},
+            xlabel=\(t\),
             axis lines=middle,
-            title={\((x \circ g)(t)\)},
+            title={\((g \circ x)(t)\)},
             width=0.4\textwidth
         ]
         \addplot[
             color=blue,
-        ]{-4*exp{x/2}*(exp(-3/2) - 1)};
+            domain=0:3
+        ]{4 - 4*exp(-(-x + 3) / 2)};
+        \addplot[
+            color=blue,
+            domain=-5:0
+        ]{-2*exp(1/2 * x) * (2*exp(-3/2) - 2)};
         \end{axis}
     \end{tikzpicture}
 \end{center}
@@ -415,6 +448,6 @@ We can rewrite \(g[n]\) as
 
 \subsection{}
 
-Let \(h[n] = \delta[n + 2] - \left(\frac{1}{2}\right)^4 \delta[n - 2]\) and let \(x[n] = \left(\frac{1}{2}\right)^{n - 2} u[n]\).
+Let \(h[n] = \alpha^{n - 2} \delta[n + 2] - \alpha^{n + 2} \delta[n - 2]\) with \(\alpha = \frac{1}{2}\).
 
 \end{document}
