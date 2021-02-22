@@ -21,7 +21,7 @@
 \begin{enumerate}
     \item \(\F\{\delta(t - 5)\} = \int_{\R} \delta(t - 5) e^{-j \omega t} \, dt = e^{-5j \omega}\)
     \item \(\F\{e^{-at} u(t)\} = \int_0^\infty e^{-t (a + j \omega)} \, dt = \frac{1}{a + j \omega}\)
-    \item \(\F\{e^{(-1 + 2j) t}\} = \frac{1}{-1 + 2j + j \omega} = \frac{1}{1 + (2 + \omega) j}\)
+    \item \(\F\{e^{(-1 + 2j) t}\} = \F\{e^{-(1 - 2j) t}\} = \frac{1}{1 - 2j + j \omega} = \frac{1}{1 + (\omega - 2) j}\)
 \end{enumerate}
 Plotting the Fourier tranforms,
 \begin{center}
@@ -84,7 +84,7 @@ Plotting the Fourier tranforms,
             color=blue,
             domain=-5:5,
             samples=200
-        ]{1 / sqrt(1 + (2 + x)^2)};
+        ]{1 / sqrt(1 + (x - 2)^2)};
         \end{axis}
     \end{tikzpicture}
     \begin{tikzpicture}
@@ -96,7 +96,7 @@ Plotting the Fourier tranforms,
         \addplot[
             color=blue,
             domain=-5:5
-        ]{rad(atan(-(2 + x)))};
+        ]{rad(atan(-(x - 2)))};
         \end{axis}
     \end{tikzpicture}
 \end{center}
