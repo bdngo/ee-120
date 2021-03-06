@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{eecstex}
+
+\renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
+\renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\newcommand{\F}{\mathcal{F}}
+
+\title{EE 120 HW 06}
+\author{Bryan Ngo}
+\date{2021-03-05}
+
+\begin{document}
+
+\maketitle
+
+\section{Continuous Time Fourier Series}
+
+\begin{equation}
+    x(t) = \sum_{k \in \Z} a_k e^{j \omega_0 k t} = \sum_{k \in \Z} a_k e^{j \frac{2\pi}{T} kt}
+\end{equation}
+
+\begin{theorem}
+    If \(x(t) = x(-t)\) for all \(t\), then \(a_k \in \R\).
+\end{theorem}
+\begin{proof}
+    Given the statement, we have
+    \begin{align}
+        \sum_{k \in \Z} a_k e^{j \omega_0 k t} &= \sum_{k \in \Z} a_k e^{-j \omega_0 k t} \\
+        \implies \sum_{k \in \Z} a_k (e^{j \omega_0 k t} - e^{-j \omega_0 k t}) &= 0 \\
+        \implies 2j \sum_{k \in \Z} a_k \sin(\omega_0 k t) &= 0 \\
+        \implies
+    \end{align}
+\end{proof}
+
+\end{document}
