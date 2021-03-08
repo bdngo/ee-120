@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{eecstex}
+\usepackage{physics}
+\usepackage{pgfplots}
 
 \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}
 \renewcommand{\thesubsubsection}{\thesubsection.\alph{subsubsection}}
@@ -32,5 +34,68 @@
         \implies
     \end{align}
 \end{proof}
+
+\section{DTFS}
+
+\begin{align}
+    x[n + 4m] &= x[n] \\
+    \sum_{n \in [-1, 2]} x[n] &= 2 \\
+    \sum_{n \in [-1, 2]} (-1)^n x[n] &= 4 \\
+    \sum_{n \in [-1, 2]} x[n] \cos\qty[\frac{\pi}{2} n] &= \sum_{n \in [-1, 2]} x[n] \sin\qty[\frac{\pi}{2} n] = 0
+\end{align}
+
+\subsection{}
+
+From the first property, we know that \(N_0 = 4\).
+By definition of the DTFS,
+\begin{equation}
+    a_k = \frac{1}{4} \sum_{n \in [-1, 2]} x[n] e^{-j \frac{\pi}{2} k n} = \frac{1}{4} (x[-1] e^{j \frac{\pi}{2} k} + x[0] + x[1] e^{-j \frac{\pi}{2} k} + x[2] e^{-j \pi k})
+\end{equation}
+Then from the last property,
+\begin{align}
+    \frac{1}{2} \sum_{n \in [-1, 2]} x[n] (e^{j \frac{\pi}{2}} n + e^{-j \frac{\pi}{2} n}) &= 0 \\
+    \frac{1}{2j} \sum_{n \in [-1, 2]} x[n] (e^{j \frac{\pi}{2} n} - e^{-j \frac{\pi}{2} n}) &= 0
+\end{align}
+which tells us that \(a_1 = a_{-1} = 0\) by pattern-matching.
+Plugging \(k = 0\) into the DTFS and using the second property tells us that \(a_0 = \frac{1}{4} \sum_{n \in [-1, 2]} x[n] = \frac{1}{2}\).
+Likewise, plugging in \(k = 2\) into the DTFS and using the third property tells us that \(a_2 = \frac{1}{4} \sum_{n \in [-1, 2]} (-1)^n x[n] = 1\).
+Thus, we have
+\begin{equation}
+    x[n] = \sum_{k \in [-1, 2]} a_k e^{j \frac{\pi}{2} k n} = \frac{1}{2} + e^{j \pi n} = \frac{1}{2} + (-1)^n
+\end{equation}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(n\), ylabel={\(x[n]\)},
+            axis lines=middle,
+            ymin=-1, ymax=2
+        ]
+        \addplot[
+            ycomb,
+            color=blue,
+            mark=*
+        ]
+        coordinates {
+            (-1, -1/2)
+            (0, 3/2)
+            (1, -1/2)
+            (2, 3/2)
+        };
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection{}
+
+From the plot, we find that \(N_0 = 2\) so \(\omega_0 = \pi\).
+Finding the DTFS of \(x[n]\),
+\begin{align}
+    a_k &= \frac{1}{2} \sum_{n \in [-1, 0]} x[n] e^{-j \pi k n} = -\frac{1}{4} (-1)^k + \frac{3}{4} \\
+    x[n] &= \sum_{k \in [-1, 0]} a_k e^{j \pi k n} = e^{j \pi n} + \frac{1}{2} = (-1)^n + \frac{1}{2}
+\end{align}
+Then, we can use the fact that the DTFT of any \(x[n]\) represented by the DTFS as
+\begin{equation}
+    X(e^{j \omega}) = \sum_{k \in [-1, 0]} a_k \delta(\omega - \pi k) = \delta(\omega + \pi) + \frac{1}{2} \delta(\omega)
+\end{equation}
 
 \end{document}
