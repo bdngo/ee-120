@@ -22,6 +22,8 @@
     x(t) = \sum_{k \in \Z} a_k e^{j \omega_0 k t} = \sum_{k \in \Z} a_k e^{j \frac{2\pi}{T} kt}
 \end{equation}
 
+\subsection{}
+
 \begin{theorem}
     If \(x(t) = x(-t)\) for all \(t\), then \(a_k \in \R\).
 \end{theorem}
@@ -43,11 +45,10 @@
 \begin{proof}
     By definition of the DTFS coefficients,
     \begin{align}
-        a_k &= \frac{1}{T} \int_{\langle T \rangle} x(t) e^{-j \omega_0 k t} \, dt \\
-        &= \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} x(t) e^{-j \omega_0 k t} \, dt \\
+        a_k &= \frac{1}{T} \int_{\langle T \rangle} x(t) e^{-j \omega_0 k t} \, dt = \frac{1}{T} \int_{-\frac{T}{2}}^{\frac{T}{2}} x(t) e^{-j \omega_0 k t} \, dt \\
         &= \frac{1}{T} \int_{-\frac{T}{2}}^0 x(t) e^{-j \omega_0 k t} \, dt + \frac{1}{T} \int_0^{\frac{T}{2}} x(t) e^{-j \omega_0 k t} \, dt \\
-        &= -\frac{1}{T} \int_0^{\frac{T}{2}} x(t) e^{j \omega_0 k t} \, dt + \frac{1}{T} \int_0^{\frac{T}{2}} x(t) e^{-j \omega_0 k t} \, dt \\
-        &= -\frac{1}{T} \int_0^{\frac{T}{2}} x(t) (e^{j \omega_0 k t} - e^{-j \omega_0 k t}) \, dt = -\frac{1}{2jT} \int_0^{\frac{T}{2}} x(t) \sin(\omega_0 k t) \, dt \implies \Re\{a_k\} = 0
+        &= \underbrace{-\frac{1}{T} \int_0^{\frac{T}{2}} x(t) e^{j \omega_0 k t} \, dt}_{\text{by definition of odd function}} + \frac{1}{T} \int_0^{\frac{T}{2}} x(t) e^{-j \omega_0 k t} \, dt \\
+        &= -\frac{1}{T} \int_0^{\frac{T}{2}} x(t) (e^{j \omega_0 k t} - e^{-j \omega_0 k t}) \, dt = -\frac{2j}{T} \int_0^{\frac{T}{2}} x(t) \sin(\omega_0 k t) \, dt \implies \Re\{a_k\} = 0
     \end{align}
 \end{proof}
 
@@ -129,7 +130,7 @@ Finding the DTFS of \(x[n]\),
     a_k &= \frac{1}{2} \sum_{n \in [-1, 0]} x[n] e^{-j \pi k n} = -\frac{1}{4} (-1)^k + \frac{3}{4} \\
     x[n] &= \sum_{k \in [-1, 0]} a_k e^{j \pi k n} = e^{j \pi n} + \frac{1}{2} e^{j \pi (0) n}
 \end{align}
-Note that we have a complex exponential at \(\omega = \pi\) and \(\omega = 0\).
+Note that we have a complex exponential at harmonic frequencies \(\omega = \pi\) and \(\omega = 0\) and coefficients \(1\) and \(\frac{1}{2}\), respectively.
 These are the only frequencies present in our signal, so our DTFT must resemble two spikes at the respective frequencies, appropriately scaled.
 Then, we can use the fact that the DTFT of any \(x[n]\) represented by the DTFS as
 \begin{equation}
