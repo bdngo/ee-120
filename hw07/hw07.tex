@@ -34,7 +34,7 @@
     &= 2 \int_0^\infty e^{-2t} \sin(3t) e^{-j \omega t} \, dt = 2\F\{e^{-2t} \sin(3t) u(t)\} \\
     &= \frac{1}{\pi} \F\{e^{-2t} u(t)\} \ast \F\{\sin(3t)\} \\
     &= \frac{1}{2\pi j} \qty(\frac{1}{2 + j \omega}) \ast \qty(\delta\qty(\omega - \frac{3}{2\pi}) + \delta\qty(\omega + \frac{3}{2\pi})) \\
-    &= \frac{1}{2\pi j} \qty(\frac{1}{2 + j \qty(\omega - \frac{3}{2\pi})} + \frac{1}{a + j \qty(\omega + \frac{3}{2\pi})})
+    &= \frac{1}{2\pi j} \qty(\frac{1}{2 + j \qty(\omega - \frac{3}{2\pi})} + \frac{1}{2 + j \qty(\omega + \frac{3}{2\pi})})
 \end{align}
 
 \subsection{}
@@ -239,6 +239,6 @@ Setting the two equal to each other gives us that \(H(\omega) = \frac{B(\omega)}
 \begin{equation}
     y(t) = \dv{t} e^{j \omega t} = j\omega e^{j \omega t} \implies |H_d(\omega)| = \omega
 \end{equation}
-We find that \(\frac{|H_1(omega)|}{|H_d(\omega)|} = e^{-\frac{\omega^2}{2}}\), so this means that this signal isnot attenuated through this filter of the ratio, so it is amplified.
+We find that \(\frac{|H_1(omega)|}{|H_d(\omega)|} = e^{-\frac{\omega^2}{2}}\), so this means that this signal is not attenuated through this filter of the ratio, so it is amplified.
 
 \end{document}
