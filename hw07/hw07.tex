@@ -73,10 +73,11 @@ Setting the two equal to each other gives us that \(H(\omega) = \frac{B(\omega)}
 
 \section{A Fourier System}
 
+Using the linearity of the Fourier transform and the time scaling property,
 \begin{align}
-    \F\{x(t)\} &= 2\pi X(-t) \\
-    \F^2\{x(t)\} &= \F\{2\pi X(-t)\} = 4\pi^2 X(-t) \\
-    \F^3\{x(t)\} &= \F\{4\pi^2 X(-t)\} = 8\pi^3 X(-t) = w(t)
+    \F\{x(t)\} &= 2\pi X(-\omega) \implies 2\pi X(-t)\\
+    \F^2\{x(t)\} &= \F\{2\pi X(-t)\} = 4\pi^2 X(\omega) \implies 4\pi^2 X(t) \\
+    \F^3\{x(t)\} &= \F\{4\pi^2 X(t)\} = 8\pi^3 X(-t) = w(t)
 \end{align}
 
 \section{DTFS as a Linear Operation}
@@ -202,6 +203,7 @@ Setting the two equal to each other gives us that \(H(\omega) = \frac{B(\omega)}
         0 & 0 & 3
     \end{bmatrix} = \bm{I}_3
 \end{equation}
+where we use the fact that all the off-diagonal entries are \(0\) since we do not get multiples of \(2\pi\) in the complex exponential phase.
 
 \section{Derivatives of a Signal}
 
