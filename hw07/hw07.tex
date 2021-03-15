@@ -40,9 +40,9 @@
 \subsection{}
 
 \begin{align}
-    \F\qty{\qty(\frac{\sin(\pi t)}{t}) \ast \qty(\frac{\sin(2\pi t)}{t})} &= \pi \F\{\sinc(t) \ast 2 \sinc(2\pi t)\} \\
-    &= \pi \F\{\sinc(t)\} \cdot 2 \F\{\sinc(2\pi t)\} \\
-    &= \pi \rect(\omega) \cdot \frac{2}{2\pi} \rect\qty(\frac{\omega}{2\pi}) = \rect(\omega) \rect\qty(\frac{\omega}{2\pi})
+    \F\qty{\qty(\frac{\sin(\pi t)}{t}) \ast \qty(\frac{\sin(2\pi t)}{t})} &= \F\{\pi \sinc(t) \ast 2\pi \sinc(2t)\} \\
+    &= \pi \F\{\sinc(t)\} \cdot 2\pi \F\{\sinc(2t)\} \\
+    &= \pi \rect(\omega) \cdot \frac{2\pi}{2} \rect\qty(\frac{\omega}{2}) = \pi^2 \rect(\omega) \rect\qty(\frac{\omega}{2})
 \end{align}
 
 \section{2nd Order LCCDE}
