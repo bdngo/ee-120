@@ -52,10 +52,28 @@ Note that \(H(e^{j \omega})\) can be rewritten as
 
 Note that \(\angle H(e^{j \omega})\) can be rewritten as
 \begin{align}
-    \angle H(e^{j \omega}) &= \angle(e^{-j \omega} - a) - \angle(1 - ae^{-j \omega}) \\
-    &= \angle((\cos(\omega) - a) - j \sin(\omega)) - \angle ((1 - a \cos(\omega)) + a j \sin(\omega)) \\
-    &= \tan[-1](-\frac{\sin(\omega)}{\cos(\omega) - a}) - \tan[-1](\frac{a \sin(\omega)}{1 - a \cos(\omega)}) \\
+    H(e^{-j \omega}) &= \frac{e^{-j \omega} - a}{e^{-j \omega} (e^{j \omega} - a)} = e^{j \omega} \frac{e^{-j \omega} - a}{e^{j \omega} - a}\\
+    \angle H(e^{j \omega}) &= \omega + \angle(e^{-j \omega} - a) - \angle(e^{j \omega} - a) \\
+    &= \omega + \angle((\cos(\omega) - a) - j \sin(\omega)) - \angle ((\cos(\omega) - a) + j \sin(\omega)) \\
+    &= \omega + \tan[-1](-\frac{\sin(\omega)}{\cos(\omega) - a}) - \tan[-1](\frac{\sin(\omega)}{\cos(\omega) - a}) \\
+    &= \omega - 2\tan[-1](\frac{\sin(\omega)}{\cos(\omega) - a})
 \end{align}
+
+\subsection{}
+
+Plugging in \(a = \frac{1}{\sqrt{3}}\), we have
+\begin{equation}
+    H(e^{j \omega}) = \frac{e^{-j \omega} - \frac{1}{\sqrt{3}}}{1 - \frac{1}{\sqrt{3}} e^{-j \omega}}
+\end{equation}
+In order to find \(y[n] = x[n] \ast h[n]\), we can find \(Y(e^{j \omega}) = X(e^{j \omega}) H(e^{j \omega})\).
+Finding \(X(e^{j \omega})\),
+\begin{equation}
+    X(e^{j \omega}) = \pi \sum_{k \in \Z} \qty(\delta\qty(\omega - \frac{\pi}{6} - 2\pi k) + \delta\qty(\omega + \frac{\pi}{6} - 2\pi k) + \delta(\omega - \pi - 2\pi k) + \delta(\omega + \pi - 2\pi k))
+\end{equation}
+Calculating \(X(e^{j \omega}) H(e^{j \omega})\),
+\begin{equation}
+    X(e^{j \omega}) H(e^{j \omega}) = 
+\end{equation}
 
 \section{DFT and DTFS}
 
