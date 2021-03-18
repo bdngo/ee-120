@@ -1,0 +1,70 @@
+\documentclass{article}
+\usepackage{eecstex}
+\usepackage{physics}
+
+\input{../addon}
+
+\title{EE 120 HW 08}
+\author{Bryan Ngo}
+\date{2021-03-16}
+
+\begin{document}
+
+\maketitle
+
+\section{Separable Function}
+
+\begin{equation}
+    \begin{array}{|c|c|}
+        \hline
+        \text{Signal} & \text{Separation} \\
+        \hline
+        \frac{1}{x^2 - y^2} & \emptyset \\
+        \frac{1}{x^2 + 4y^2 - 4xy} & \emptyset \\
+        \frac{1}{xy - y + 2x - 2} & \emptyset \\
+        e^{-\frac{1}{2} (x^2 + y^2)} & e^{-\frac{x^2}{2}} e^{-\frac{y^2}{2}} \\
+        \sin(x + y) + \sin(x - y) & 2 \sin(x) \cos(y) \\
+        \begin{cases}
+            1 & |x| < x_0, |y| < y_0 \\
+            0 & \text{otherwise}
+        \end{cases} & \Pi\qty(\frac{x}{2x_0}) \Pi\qty(\frac{y}{2y_0}) \\
+        \hline
+    \end{array}
+\end{equation}
+
+\section{All Pass System}
+
+\begin{equation}
+    H(e^{j \omega}) = \frac{e^{-j \omega} - a}{1 - ae^{-j \omega}}
+\end{equation}
+
+\subsection{}
+
+Note that \(H(e^{j \omega})\) can be rewritten as
+\begin{align}
+    H(e^{j \omega}) &= \frac{\cos(\omega) - j \sin(\omega) - a}{1 - a \cos(\omega) + a j \sin(\omega)} \\
+    \implies |H(e^{j \omega})| &= \sqrt{\frac{(\cos(\omega) - a)^2 + \sin^2(\omega)}{(1 - a \cos(\omega))^2 + a^2 \sin^2(\omega)}} \\
+    &= \sqrt{\frac{\cos^2(\omega) - 2a \cos(\omega) + a^2 + \sin^2(\omega)}{1 - 2a \cos(\omega) + a^2 (\cos^2(\omega) + \sin^2(\omega))}} \\
+    &= \sqrt{\frac{1 + a^2 - 2a \cos(\omega)}{1 + a^2 - 2a \cos(\omega)}} = 1
+\end{align}
+
+\subsection{}
+
+Note that \(\angle H(e^{j \omega})\) can be rewritten as
+\begin{align}
+    \angle H(e^{j \omega}) &= \angle(e^{-j \omega} - a) - \angle(1 - ae^{-j \omega}) \\
+    &= \angle((\cos(\omega) - a) - j \sin(\omega)) - \angle ((1 - a \cos(\omega)) + a j \sin(\omega)) \\
+    &= \tan[-1](-\frac{\sin(\omega)}{\cos(\omega) - a}) - \tan[-1](\frac{a \sin(\omega)}{1 - a \cos(\omega)}) \\
+\end{align}
+
+\section{DFT and DTFS}
+
+\subsection{}
+
+When \(k = \ell\),
+\begin{equation}
+    \frac{1}{p^2} \sum_{k \in \langle p \rangle} \phi_k[n] \phi_k^\ast[n] = \frac{1}{p}
+\end{equation}
+When \(k \neq \ell\),
+
+\end{document}
