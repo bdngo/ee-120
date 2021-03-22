@@ -44,7 +44,7 @@ Note that \(H(e^{j \omega})\) can be rewritten as
 \begin{equation}
     H(e^{j \omega}) = \frac{e^{-j \omega} - a}{e^{-j \omega} (e^{j \omega} - a)} = e^{j \omega} \frac{e^{-j \omega} - a}{e^{j \omega} - a}
 \end{equation}
-Note that since the numerator and the denominators are conjugates, and since \(|z| = |z^\ast|\) and \(|e^{j \omega}| = 1\), we have \(|H(e^{j \omega})| = 1\).
+Since the numerator and the denominators are conjugates, \(|z| = |z^\ast|\), and \(|e^{j \omega}| = 1\), we have \(|H(e^{j \omega})| = 1\).
 
 \subsection{}
 
@@ -73,17 +73,17 @@ We can calculate that
 \end{align}
 So the final output is
 \begin{equation}
-    y[n] = \frac{1}{2} (e^{-j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{j \qty(\pi n + \pi)} + e^{-j \qty(\pi n + \pi)}) = \frac{1}{2} \qty(\sin\qty[\frac{\pi}{6} n] + \cos\qty[\pi n])
+    y[n] = \frac{1}{2} (e^{j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{-j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{j \qty(\pi n + \pi)} + e^{-j \qty(\pi n + \pi)}) = \sin\qty[\frac{\pi}{6} n] - \cos\qty[\pi n]
 \end{equation}
-Since \(\sin\qty[n - \frac{\pi}{2}] = \cos[n]\).
+Since \(\sin\qty[n - \frac{\pi}{2}] = \cos[n]\) and \(\cos[n + \pi] = -\cos[n]\).
 
 \subsection{}
 
-Note that \(H(e^{j \omega}) = \frac{Y(e^{j \omega})}{X(e^{j \omega})}\), so we can plug that in,
+Note that \(H(e^{j \omega}) = \frac{Y(e^{j \omega})}{X(e^{j \omega})}\), so we can rearrange to get
 \begin{equation}
     Y(e^{j \omega}) (1 - ae^{-j \omega}) = (e^{-j \omega} - a) X(e^{j \omega})
 \end{equation}
-Using the inverse DTFT with linearity and frequency shifting, we get
+Applying the inverse DTFT to both sides and using the linearity and frequency shifting properties, we get
 \begin{equation}
     y[n] - ay[n - 1] = x[n - 1] - ax[n]
 \end{equation}
@@ -102,10 +102,10 @@ The general equation is
 \end{equation}
 Substituting the definitions of \(\psi\),
 \begin{equation}
-    \frac{1}{p^2} \sum_{n \in \langle p \rangle} \phi_k[n] \phi_\ell^\ast[n] = \frac{1}{p^2} \sum_{n \in [0, p - 1]} e^{j \omega_0 n (k - \ell)} = \frac{1 - e^{j \frac{2\pi}{p} p (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}} = \frac{1 - e^{j \frac{2\pi} (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}}
+    \frac{1}{p^2} \sum_{n \in \langle p \rangle} \phi_k[n] \phi_\ell^\ast[n] = \frac{1}{p^2} \sum_{n \in [0, p - 1]} e^{j \omega_0 n (k - \ell)} = \frac{1}{p^2} \frac{1 - e^{j \frac{2\pi}{p} p n (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}} = \frac{1}{p^2} \frac{1 - e^{j 2\pi n (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}}
 \end{equation}
 If \(k = \ell\), we will get a sum of \(p\) ones.
-If \(k \neq \ell\), then \(k - \ell \in \Z\), so we will always have \(1 - 1\) in the numerator, so we will get \(0\).
+Since \(k - \ell \in \Z\), if \(k \neq \ell\), we will always have \(0\) in the numerator.
 In other words,
 \begin{equation}
     \iprod{\psi_k}{\psi_\ell} =
