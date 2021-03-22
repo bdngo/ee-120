@@ -21,7 +21,7 @@
         \hline
         \frac{1}{x^2 - y^2} & \emptyset \\
         \frac{1}{x^2 + 4y^2 - 4xy} & \emptyset \\
-        \frac{1}{xy - y + 2x - 2} & \emptyset \\
+        \frac{1}{xy - y + 2x - 2} & \frac{1}{x - 1} \frac{1}{y + 2} \\
         e^{-\frac{1}{2} (x^2 + y^2)} & e^{-\frac{x^2}{2}} e^{-\frac{y^2}{2}} \\
         \sin(x + y) + \sin(x - y) & 2 \sin(x) \cos(y) \\
         \begin{cases}
@@ -41,18 +41,16 @@
 \subsection{}
 
 Note that \(H(e^{j \omega})\) can be rewritten as
-\begin{align}
-    H(e^{j \omega}) &= \frac{\cos(\omega) - j \sin(\omega) - a}{1 - a \cos(\omega) + a j \sin(\omega)} \\
-    \implies |H(e^{j \omega})| &= \sqrt{\frac{(\cos(\omega) - a)^2 + \sin^2(\omega)}{(1 - a \cos(\omega))^2 + a^2 \sin^2(\omega)}} \\
-    &= \sqrt{\frac{\cos^2(\omega) - 2a \cos(\omega) + a^2 + \sin^2(\omega)}{1 - 2a \cos(\omega) + a^2 (\cos^2(\omega) + \sin^2(\omega))}} \\
-    &= \sqrt{\frac{1 + a^2 - 2a \cos(\omega)}{1 + a^2 - 2a \cos(\omega)}} = 1
-\end{align}
+\begin{equation}
+    H(e^{j \omega}) = \frac{e^{-j \omega} - a}{e^{-j \omega} (e^{j \omega} - a)} = e^{j \omega} \frac{e^{-j \omega} - a}{e^{j \omega} - a}
+\end{equation}
+Note that since the numerator and the denominators are conjugates, and since \(|z| = |z^\ast|\) and \(|e^{j \omega}| = 1\), we have \(|H(e^{j \omega})| = 1\).
 
 \subsection{}
 
 Note that \(\angle H(e^{j \omega})\) can be rewritten as
 \begin{align}
-    H(e^{-j \omega}) &= \frac{e^{-j \omega} - a}{e^{-j \omega} (e^{j \omega} - a)} = e^{j \omega} \frac{e^{-j \omega} - a}{e^{j \omega} - a}\\
+    H(e^{j \omega}) &= \frac{e^{-j \omega} - a}{e^{-j \omega} (e^{j \omega} - a)} = e^{j \omega} \frac{e^{-j \omega} - a}{e^{j \omega} - a} \\
     \angle H(e^{j \omega}) &= \omega + \angle(e^{-j \omega} - a) - \angle(e^{j \omega} - a) \\
     &= \omega + \angle((\cos(\omega) - a) - j \sin(\omega)) - \angle ((\cos(\omega) - a) + j \sin(\omega)) \\
     &= \omega + \tan[-1](-\frac{\sin(\omega)}{\cos(\omega) - a}) - \tan[-1](\frac{\sin(\omega)}{\cos(\omega) - a}) \\
@@ -61,28 +59,81 @@ Note that \(\angle H(e^{j \omega})\) can be rewritten as
 
 \subsection{}
 
-Plugging in \(a = \frac{1}{\sqrt{3}}\), we have
+First, convert the signal into a sum of exponentials,
 \begin{equation}
-    H(e^{j \omega}) = \frac{e^{-j \omega} - \frac{1}{\sqrt{3}}}{1 - \frac{1}{\sqrt{3}} e^{-j \omega}}
+    x[n] = \frac{1}{2} (e^{j \frac{\pi}{6} n} + e^{-j \frac{\pi}{6} n} + e^{j \pi n} + e^{-j \pi n})
 \end{equation}
-In order to find \(y[n] = x[n] \ast h[n]\), we can find \(Y(e^{j \omega}) = X(e^{j \omega}) H(e^{j \omega})\).
-Finding \(X(e^{j \omega})\),
+Then we can plug in every frequency into the transfer function.
+Since \(|H(e^{j \omega})| = 1\), we know that there will only be frequency shifts.
+The final output will simply be shifted by each respective frequency by the eigenfunction property.
+We can calculate that
+\begin{align}
+    \pm \frac{\pi}{6} - 2\tan[-1](\frac{\sin(\pm \frac{\pi}{6})}{\cos(\pm \frac{\pi}{6}) - \frac{1}{\sqrt{3}}}) &= \mp \frac{\pi}{2} \\
+    \pm \pi - 2\tan[-1](\frac{\sin(\pm \pi)}{\cos(\pm \pi) - \frac{1}{\sqrt{3}}}) &= \pm \pi
+\end{align}
+So the final output is
 \begin{equation}
-    X(e^{j \omega}) = \pi \sum_{k \in \Z} \qty(\delta\qty(\omega - \frac{\pi}{6} - 2\pi k) + \delta\qty(\omega + \frac{\pi}{6} - 2\pi k) + \delta(\omega - \pi - 2\pi k) + \delta(\omega + \pi - 2\pi k))
+    y[n] = \frac{1}{2} (e^{-j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{j \qty(\frac{\pi}{6} n - \frac{\pi}{2})} + e^{j \qty(\pi n + \pi)} + e^{-j \qty(\pi n + \pi)}) = \frac{1}{2} \qty(\sin\qty[\frac{\pi}{6} n] + \cos\qty[\pi n])
 \end{equation}
-Calculating \(X(e^{j \omega}) H(e^{j \omega})\),
+Since \(\sin\qty[n - \frac{\pi}{2}] = \cos[n]\).
+
+\subsection{}
+
+Note that \(H(e^{j \omega}) = \frac{Y(e^{j \omega})}{X(e^{j \omega})}\), so we can plug that in,
 \begin{equation}
-    X(e^{j \omega}) H(e^{j \omega}) = 
+    Y(e^{j \omega}) (1 - ae^{-j \omega}) = (e^{-j \omega} - a) X(e^{j \omega})
+\end{equation}
+Using the inverse DTFT with linearity and frequency shifting, we get
+\begin{equation}
+    y[n] - ay[n - 1] = x[n - 1] - ax[n]
 \end{equation}
 
 \section{DFT and DTFS}
 
+\begin{equation}
+    x = \sum_{k \in \langle p \rangle} X_k \phi_k \longleftrightarrow X_k = \frac{\iprod{x}{\phi_k}}{\iprod{\phi_k}{\phi_k}}
+\end{equation}
+
 \subsection{}
 
-When \(k = \ell\),
+The general equation is
 \begin{equation}
-    \frac{1}{p^2} \sum_{k \in \langle p \rangle} \phi_k[n] \phi_k^\ast[n] = \frac{1}{p}
+    \iprod{\psi_k}{\psi_\ell} = \sum_{n \in \langle p \rangle} \psi_k[n] \psi_\ell^\ast[n]
 \end{equation}
-When \(k \neq \ell\),
+Substituting the definitions of \(\psi\),
+\begin{equation}
+    \frac{1}{p^2} \sum_{n \in \langle p \rangle} \phi_k[n] \phi_\ell^\ast[n] = \frac{1}{p^2} \sum_{n \in [0, p - 1]} e^{j \omega_0 n (k - \ell)} = \frac{1 - e^{j \frac{2\pi}{p} p (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}} = \frac{1 - e^{j \frac{2\pi} (k - \ell)}}{1 - e^{j \omega_0 (k - \ell)}}
+\end{equation}
+If \(k = \ell\), we will get a sum of \(p\) ones.
+If \(k \neq \ell\), then \(k - \ell \in \Z\), so we will always have \(1 - 1\) in the numerator, so we will get \(0\).
+In other words,
+\begin{equation}
+    \iprod{\psi_k}{\psi_\ell} =
+    \begin{cases}
+        \frac{1}{p} & k = \ell \\
+        0 & k \neq \ell
+    \end{cases}
+\end{equation}
+
+\subsection{}
+
+We can express \(X_k'\) in terms of \(x\) and \(\Psi\) as
+\begin{equation}
+    X_k' = p \sum_{k \in \langle p \rangle} x[n] \psi_k^\ast[n] = \frac{\iprod{x}{\psi_k}}{\iprod{\psi_k}{\psi_k}}
+\end{equation}
+Furthermore, by pattern-matching the fact that
+\begin{equation}
+    x[n] = \sum_{k \in \langle p \rangle} X_k \phi_k[n] = \frac{1}{p} \sum_{k \in \langle p \rangle} X_k' \phi_k[n]
+\end{equation}
+We get that \(X_k' = p X_k\), or
+\begin{equation}
+    X_k' = p X_k = p \frac{1}{p} \sum_{k \in \langle p \rangle} x[n] \phi_k^\ast[n] = \sum_{k \in \langle p \rangle} x[n] e^{-j \omega_0 k n}
+\end{equation}
+which is the DFT analysis equation.
+Furthermore, we can plug in the inner product in terms of \(\Psi\),
+\begin{equation}
+    x[n] = \sum_{k \in \langle p \rangle} X_k' \psi_k[n] = \sum_{k \in \langle p \rangle} p X_k \frac{1}{p} \phi_k[n] = \sum_{k \in \langle p \rangle} X_k e^{j k \omega_0 n}
+\end{equation}
+which is the DFT synthesis equation.
 
 \end{document}
