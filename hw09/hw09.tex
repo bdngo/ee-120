@@ -35,12 +35,13 @@ where we use the linearity and separation property of the 2D DTFT.
         \begin{axis}[
             xlabel=\(\omega_1\),
             ylabel={\(\omega_2\)},
-            zlabel={\(H(e^{j \omega_1, e^{j \omega_2}})\)},
+            zlabel={\(H(e^{j \omega_1}, e^{j \omega_2})\)},
             xmin=-pi, xmax=pi,
             ymin=-pi, ymax=pi,
         ]
         \addplot3[
             surf,
+            domain=-pi:pi,
         ]
         {(1 + 2 * cos(deg(x)) + 2 * cos(deg(y))) / 5};
         \end{axis}
@@ -49,12 +50,13 @@ where we use the linearity and separation property of the 2D DTFT.
         \begin{axis}[
             xlabel=\(\omega_1\),
             ylabel={\(\omega_2\)},
-            zlabel={\(|H(e^{j \omega_1, e^{j \omega_2}})|\)},
+            zlabel={\(|H(e^{j \omega_1}, e^{j \omega_2})|\)},
             xmin=-pi, xmax=pi,
             ymin=-pi, ymax=pi,
         ]
         \addplot3[
             surf,
+            domain=-pi:pi,
         ]
         {(1 + 2 * abs(cos(deg(x))) + 2 * abs(cos(deg(y)))) / 5};
         \end{axis}
