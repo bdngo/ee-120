@@ -1,0 +1,95 @@
+\documentclass{article}
+\usepackage{eecstex}
+\usepackage{physics}
+
+\DeclareMathOperator{\Shah}{Shah}
+\DeclareMathOperator{\down}{\downarrow}
+\DeclareMathOperator{\up}{\uparrow}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\F}{\mathcal{F}}
+
+\begin{document}
+
+\section{Sampling Basics}
+
+\begin{align}
+    x_d[n] &= x(nT) \\
+    x_p(t) &= x(t) p(t) = \sum_{n \in \Z} x(nT) \delta(t - nT) = x(t) \frac{1}{T} \Shah\qty(\frac{t}{T}) \\
+    x_p[n] &= x[n] p[n] = \sum_{k \in \Z} x[kT] \delta[n - kT] \\
+\end{align}
+
+\section{Sampled Fourier Transforms}
+
+\begin{align}
+    X_p(\omega) &= \frac{1}{T} \sum_{n \in \Z} X(\omega - n\omega_s) = f_s \sum_{n \in \Z} X(f - nf_s) = \sum_{n \in \Z} x(nT) e^{-j \omega nT} \\
+    X_d(e^{j \Omega}) &= \sum_{n \in \Z} x(nT) e^{-j \Omega n} = \frac{1}{T} \sum_{n \in \Z} X(\Omega - 2\pi n) \implies \boxed{\Omega = \omega T} \\
+    X_p(e^{j \omega}) &= \frac{1}{N} X(e^{j \omega}) = \frac{1}{N} \sum_{m \in \Z} X(e^{j (\omega - m \omega_s)})
+\end{align}
+
+\section{Downsampling \& Upsampling}
+
+\begin{align}
+    \down_N\{x[n]\} &= x[nN] \neq x_p[n] \\
+    \up_N\{x[n]\} &= x[n] \ast \sinc\qty[\frac{n}{N}] =
+    \begin{cases}
+        x\qty[\frac{n}{N}] & \bmod(n, N) = 0 \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align}
+
+\section{2D Sampling}
+
+\begin{align}
+    x_d[n_1, n_2] &= x(n_1T_1, n_2T_2) \\
+    x_p(t_1, t_2) &= x(t_1, t_2) p(t_1, t_2) = x(t_1, t_2) \sum_{n_1 \in \Z} \sum_{n_2 \in \Z} \delta(t_1 - n_1T_1, t_2 - n_2T_2) \\
+    X_p(\omega_1, \omega_2) &= \frac{1}{T_1 T_2} \sum_{k_1 \in \Z} \sum_{k_2 \in \Z} X(\omega_1 - k_1 \omega_{s_1}, \omega_2 - k_2 \omega_{s_2})
+\end{align}
+
+\section{2D Interpolation}
+
+\begin{equation}
+    x(t_1, t_2) = x_p(t_1, t_2) \ast \sinc\qty(\frac{t_1}{T_1}) \sinc\qty(\frac{t_2}{T_2})
+\end{equation}
+
+\section{Frequency Domain Sampling}
+
+\begin{align}
+    X_d[f] &= X(nF) \\
+    X_p(f) &= X(f) P(f) = X(f) \sum_{n \in \Z} \delta(f - nF) \\
+    x_p(t) &= \frac{1}{F} \sum_{k \in \Z} x\qty(t - \frac{k}{F}) \\
+    X_p(f_1, f_2) &= X(f_1, f_2) P(f_1, f_2) \\
+    x_p(t_1, t_2) &= \frac{1}{F_1 F_2} \sum_{k_1 \in \Z} \sum_{k_2 \in \Z} x(t_1 - k_1 t_{s_1}, t_2 - k_2 t_{s_2})
+\end{align}
+
+\section{2D Downsampling \& Upsampling}
+
+\begin{align}
+    x[m, n] &\longrightarrow \down(2, 3) \longrightarrow x[2m, 3n] \\
+    x[m, n] &\longrightarrow \up(2, 3) \longrightarrow
+    \begin{cases}
+        x\qty[\frac{m}{2}, \frac{n}{3}] & m = 2k_1, n = 3k_2 \\
+        0 & \text{otherwise}
+    \end{cases}
+\end{align}
+
+\section{2D Convolution}
+
+\begin{align}
+    f(x, y) \ast g(x, y) &= \iint_{\R^2} f(x', y') g(x - x', y - y') \, dy' \, dx' \\
+    f[m, n] \ast g[m, n] &= \sum_{k \in \Z} \sum_{\ell \in \Z} f[k, \ell] g[m - k, n - \ell]
+\end{align}
+
+\section{Denoising}
+
+\begin{align}
+    y[m, n] &= x_s[m, n] + x_n[m, n] \\
+    \text{SNR} &= 10 \log\qty(\frac{\sum_{m, n} x_s^2[m, n]}{\sum_{m, n} x_n^2[m, n]}) \\
+\end{align}
+
+\section{Deconvolution}
+
+\begin{equation}
+    y[m, n] = h[m, n] \ast x[m, n] \implies x[m, n] = \F^{-1}\qty{\frac{Y[k_1, k_2]}{H[k_1, k_2]}}
+\end{equation}
+
+\end{document}
