@@ -31,15 +31,31 @@
 
 \subsection{}
 
+Finding the sampled DTFT,
 \begin{align}
-    X_p[k] = \qty(\sum_{n \in \Z} x[n] e^{-j \omega n}) \qty(\sum_{m \in \Z} \delta\qty(\omega - m \frac{2\pi}{N}))
-    &= \sum_{n \in \Z} \sum_{m \in \Z} x[n] e^{-j (\omega - m\frac{2\pi}{N}) n}
+    X_p(e^{j \omega}) = X_p[k] &= X(e^{j \omega}) \sum_{k \in \Z} \delta\qty(\omega - k\frac{2\pi}{N}) = X(e^{j k \frac{2\pi}{N}}) \\
+    &= \sum_{n \in \Z} x[n] e^{-j k \frac{2\pi}{N} n} = \sum_{n \in [0, N - 1]} x[n] e^{-j k \frac{2\pi}{N} n} = X_{k \bmod N}
 \end{align}
-Meaning that a frequency domain sampled DTFT is simply 
 
 \subsection{}
 
+\begin{align}
+    \hat{x}[n] &= \frac{2M + N}{N} \F^{-1}_{2M + N}\{\hat{X}_m\} \\
+    &= \frac{\cancel{2M + N}}{N} \frac{1}{\cancel{2M + N}} \sum_{n \in [-M, M + N - 1]} \hat{X}[k] e^{j k \frac{2\pi}{2M + N}} \\
+    &= \frac{1}{N} \sum_{n \in [-M, M + N - 1]} \hat{X}[k] e^{j k \frac{2\pi}{2M + N} n} \\
+    &= \frac{1}{N} \sum_{n \in [0, N - 1]} \hat{X}[k] e^{j k \frac{2\pi}{2M + N}n}
+\end{align}
+Where we can adjust the indices due to the zero padding.
+On the right hand side, we have
+\begin{equation}
+    x_c\qty(\frac{N}{2M + N} n) = \frac{1}{N} \sum_{n \in [0, N - 1]} X[k] \exp\qty(j k \frac{2\pi}{\cancel{N}} \frac{\cancel{N}}{2M + N} n) = \frac{1}{N} \sum_{n \in [0, N - 1]} X_c[k] e^{j k \frac{2\pi}{2M + N}}
+\end{equation}
+Thus, we have proven them equal along the interval \([0, N - 1]\).
+
 \subsection{}
+
+We can pattern match and find that \(T = \frac{N}{2M + N} < 1\).
+This means that \(\hat{x}[n]\) is sampled at a higher rate than \(x[n]\).
 
 \section{First Order LCCDE System}
 
@@ -49,11 +65,14 @@ Meaning that a frequency domain sampled DTFT is simply
 
 \subsection{}
 
-The step response is \(y_s(t) = (1 - e^{-t}) u(t)\).
-Then, given the fact that the delta function is the derivative of the unit step function,
+Plugging in \(e^{j \omega}\) into \(G\) and using the derivative property of the CTFT,
+\begin{equation}
+    j \omega Y_c(\omega) + Y_c(\omega) = e^{j \omega} \implies Y_c(\omega) = \frac{e^{j \omega}}{1 + e^{j \omega}}
+\end{equation}
+Then, we can deconvolve \(Y_c(\omega) = H(\omega) e^{j \omega}\),
 \begin{align}
     h(t) &= \F\qty{\frac{Y_c(\omega)}{e^{j \omega}}} = \F\qty{\frac{1}{1 + j \omega}} = e^{-t} u(t) \\
-    y_p(t) &= \sum_{n \geqslant 0} e^{-t} \delta(t - nT) \implies y[n] = e^{-nT} u[nT]
+    y_p(t) &= \sum_{n \geqslant 0} e^{-t} \delta(t - nT) \implies y[n] = e^{-nT} u[n]
 \end{align}
 
 \subsection{}
@@ -64,20 +83,15 @@ Taking the DTFT of \(y[n]\) using the time scaling property and since
 \end{equation}
 We have
 \begin{equation}
-    e^{-nT} u[nT] \longleftrightarrow \frac{1}{T (1 - e^{-1 - j \frac{\omega}{T}})}
+    e^{-nT} u[n] \longleftrightarrow \frac{1}{T (1 - e^{-1 - j \frac{\omega}{T}})} = Y(e^{j \omega})
 \end{equation}
 On order to ensure that \(w[n] = \delta[n]\),
 \begin{align}
     H(e^{j \omega}) Y(e^{j \omega}) &= W(e^{j \omega}) = 1 \\
-    h[n] &= \F^{-1}\qty{T - \frac{T}{e}e^{-j \frac{\omega}{T}}} \\
-    &= \delta[n] - \frac{T}{e} \delta\qty[n - \frac{1}{T}]
+    h[n] &= \F^{-1}\qty{T - \frac{T}{e}e^{-j \frac{\omega}{T}}} = \delta[n] - \frac{T}{e} \delta\qty[n - \frac{1}{T}]
 \end{align}
 
 \section{Sample in Frequency Domain}
-
-\begin{equation}
-    P(\omega) = \sum_{n \in \Z} \delta(\omega - n\omega_s)
-\end{equation}
 
 \subsection{}
 
@@ -106,18 +120,21 @@ On order to ensure that \(w[n] = \delta[n]\),
 
 \subsection{}
 
+On the left hand side,
 \begin{align}
-    X_p(t) = \sum_{n \in \Z} X(\omega - n\omega_s) \\
-    x_p(t) = \frac{2\pi}{\omega_s} \sum_{n \in \Z} x\qty(t + \frac{2\pi n}{\omega_s})
+    X_p(t) &= \sum_{n \in \Z} X(\omega - n\omega_s) = X(\omega) P(\omega)\\
+    x_p(t) &= x(t) \ast p(t) = x(t) \ast \frac{1}{\omega_s} \sum_{k \in \Z} \delta\qty(t - n\frac{2\pi}{\omega_s}) = \frac{1}{\omega_s} \sum_{n \in \Z} x\qty(t - n\frac{2\pi}{\omega_s})
 \end{align}
+Where we take the inverse FT of \(P(\omega)\) through duality.
 This means that \(x_p(t)\) is an infinite sum of shifted versions of \(x(t)\).
 
 \subsection{}
 
-We must sample in the frequency domain such that \(\omega_s \geqslant \frac{1}{2T}\), or that the spacing must be at least than the period width of the time-domain signal.
+We must sample in the frequency domain such that \(\omega_s \geqslant \frac{1}{2T}\), or that the spacing must be at least half than the period width of the time-domain signal.
 
 \subsection{}
 
-We multiply \(x_p(t)\) with a low-pass rectangular filter to recover \(x(t)\).
+We multiply \(x_p(t)\) with a low-pass brickwall filter with cutoff period \(T\) to recover \(x(t)\).
+In the frequency domain, this is equivalent to convolution with a sinc function.
 
 \end{document}
