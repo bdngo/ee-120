@@ -1,0 +1,123 @@
+\documentclass{article}
+\usepackage{eecstex}
+\usepackage{pgfplots}
+\usepackage{physics}
+
+\DeclareMathOperator{\Shah}{Shah}
+
+\input{../addon}
+
+\title{EE 120 HW 11}
+\author{Bryan Ngo}
+\date{2021-04-15}
+
+\begin{document}
+
+\maketitle
+
+\section{Zero-Padding the DFT}
+
+\subsection{}
+
+\begin{equation}
+    X(e^{j \omega}) = \sum_{n \in \Z} x[n] e^{-j \omega n}
+\end{equation}
+
+\subsection{}
+
+\begin{equation}
+    X_k = \sum_{n \in [0, N - 1]} x[n] e^{-j k \frac{2\pi}{N} n}
+\end{equation}
+
+\subsection{}
+
+\begin{align}
+    X_p[k] = \qty(\sum_{n \in \Z} x[n] e^{-j \omega n}) \qty(\sum_{m \in \Z} \delta\qty(\omega - m \frac{2\pi}{N}))
+    &= \sum_{n \in \Z} \sum_{m \in \Z} x[n] e^{-j (\omega - m\frac{2\pi}{N}) n}
+\end{align}
+Meaning that a frequency domain sampled DTFT is simply 
+
+\subsection{}
+
+\subsection{}
+
+\section{First Order LCCDE System}
+
+\begin{equation}
+    \dv{y_c(t)}{t} + y_c(t) = x_c(t)
+\end{equation}
+
+\subsection{}
+
+The step response is \(y_s(t) = (1 - e^{-t}) u(t)\).
+Then, given the fact that the delta function is the derivative of the unit step function,
+\begin{align}
+    h(t) &= \F\qty{\frac{Y_c(\omega)}{e^{j \omega}}} = \F\qty{\frac{1}{1 + j \omega}} = e^{-t} u(t) \\
+    y_p(t) &= \sum_{n \geqslant 0} e^{-t} \delta(t - nT) \implies y[n] = e^{-nT} u[nT]
+\end{align}
+
+\subsection{}
+
+Taking the DTFT of \(y[n]\) using the time scaling property and since
+\begin{equation}
+    e^{-n} u[n] \longleftrightarrow \frac{1}{1 - e^{-1 - j \omega}}
+\end{equation}
+We have
+\begin{equation}
+    e^{-nT} u[nT] \longleftrightarrow \frac{1}{T (1 - e^{-1 - j \frac{\omega}{T}})}
+\end{equation}
+On order to ensure that \(w[n] = \delta[n]\),
+\begin{align}
+    H(e^{j \omega}) Y(e^{j \omega}) &= W(e^{j \omega}) = 1 \\
+    h[n] &= \F^{-1}\qty{T - \frac{T}{e}e^{-j \frac{\omega}{T}}} \\
+    &= \delta[n] - \frac{T}{e} \delta\qty[n - \frac{1}{T}]
+\end{align}
+
+\section{Sample in Frequency Domain}
+
+\begin{equation}
+    P(\omega) = \sum_{n \in \Z} \delta(\omega - n\omega_s)
+\end{equation}
+
+\subsection{}
+
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel=\(\omega\), ylabel={\(|X_p(\omega)|\) (\(\omega_s = 1\))},
+            axis lines=middle,
+            ymin=0, ymax=2
+        ]
+        \addplot[
+            ycomb,
+            color=blue,
+            mark=*
+        ]
+        coordinates {
+            (-2, 0.5)
+            (-1, 0.9)
+            (0, 2)
+            (1, 0.9)
+            (2, 0.5)
+        };
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+
+\subsection{}
+
+\begin{align}
+    X_p(t) = \sum_{n \in \Z} X(\omega - n\omega_s) \\
+    x_p(t) = \frac{2\pi}{\omega_s} \sum_{n \in \Z} x\qty(t + \frac{2\pi n}{\omega_s})
+\end{align}
+This means that \(x_p(t)\) is an infinite sum of shifted versions of \(x(t)\).
+
+\subsection{}
+
+We must sample in the frequency domain such that \(\omega_s \geqslant \frac{1}{2T}\), or that the spacing must be at least than the period width of the time-domain signal.
+
+\subsection{}
+
+We multiply \(x_p(t)\) with a low-pass rectangular filter to recover \(x(t)\).
+
+\end{document}
