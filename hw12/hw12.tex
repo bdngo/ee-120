@@ -1,0 +1,162 @@
+\documentclass{article}
+\usepackage{eecstex}
+\usepackage{physics}
+
+\let\L\relax
+\DeclareMathOperator{\L}{\mathcal{L}}
+\let\Re\relax
+\DeclareMathOperator{\Re}{\mathfrak{R}}
+
+\input{../addon}
+
+\title{EE 120 HW 12}
+\author{Bryan Ngo}
+\date{2021-04-22}
+
+\begin{document}
+
+\maketitle
+
+\section{Laplace Transform}
+
+\subsection{}
+
+\begin{align}
+    \L\{e^{-t} \cos(2t) u(t)\} &= \int_0^\infty e^{-t} \cos(2t) e^{-st} \, dt \\
+    &= \frac{1}{2} \int_0^\infty (e^{2t} + e^{-2t}) e^{-(s + 1) t} \, dt \\
+    &= \frac{1}{2} \int_0^\infty e^{-(s - 1) t} + e^{-(s + 3) t} \, dt \\
+    &= \frac{1}{2} \qty(\int_0^\infty e^t e^{-st} \, dt + \int_0^\infty e^{-3t} e^{-st} \, dt) \\
+    &= \frac{1}{2} \qty(\frac{1}{s - 1} + \frac{1}{s + 3})
+\end{align}
+and the ROC is \(\Re\{s\} > 1 \cap \Re\{s\} > -3 = \Re\{s\} > 1\).
+
+\subsection{}
+
+\begin{align}
+    \L\{\sin(t) u(-t)\} &= \int_{-\infty}^0 \sin(t) e^{-st} \, dt \\
+    &= -\int_0^\infty \sin(t) e^{-st} \, dt \\
+    &= -\int_0^\infty \sin(t) e^{-st} \, dt = -\frac{1}{s^2 + 1}
+\end{align}
+and the ROC is \(\Re\{s\} < 0\).
+
+\subsection{}
+
+\begin{equation}
+    \L\{t \cos(t) u(t)\} = -\dv{s} \L\{\cos(t) u(t)\} = -\dv{s} \frac{s}{s^2 + 1} = -\frac{s^2 - 1}{(s^2 + 1)^2}
+\end{equation}
+and the ROC is unchanged, or \(\Re\{s\} > 0\).
+
+\subsection{}
+
+\begin{equation}
+    \L\{\delta(t - 1)\} = e^{-s}
+\end{equation}
+where the ROC is all of \(\R\).
+
+\section{Inverse Laplace Transform}
+
+\subsection{}
+
+By the \(s\)-domain shifting property,
+\begin{equation}
+    \L^{-1}\qty{\frac{s + 2}{(s + 2)^2 + 1}} = e^{-2t} \cos(t) u(t)
+\end{equation}
+
+\subsection{}
+
+By the time shifting property,
+\begin{equation}
+    \L^{-1}\qty{e^{-s} \frac{s}{s^2 + 1}} = \cos(t - 1) u(t - 1)
+\end{equation}
+
+\subsection{}
+
+By the \(s\)-domain derivative property,
+\begin{equation}
+    \L^{-1}\qty{\frac{s}{(s^2 + 1)^2}} = -\frac{1}{2} \dv{s} \frac{1}{s^2 + 1} = \frac{1}{2} t \sin(t) u(t)
+\end{equation}
+
+\section{LTI System Transfer Function}
+
+\begin{equation}
+    H(s) = \frac{\omega_n^2}{s^2 + 2\zeta \omega_n s + \omega_n^2}
+\end{equation}
+
+\subsection{}
+
+Finding the poles of \(H(s)\),
+\begin{equation}
+    s_p = -\zeta \omega_n \pm \sqrt{\zeta^2 \omega_n^2 - \omega_n^2} = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1} = -\omega_n (\zeta \pm \sqrt{\zeta^2 - 1})
+\end{equation}
+In order to be stable, we must have \(\Re\{s_p\} < 0\).
+If \(\zeta\) is in the desired interval, then the term in the square root will be imaginary and thus irrelevant, so \(\Re\{s\} = -\omega_n \zeta\), which is always negative for \(\omega_n > 0\).
+
+\subsection{}
+
+When \(\zeta = 0\), then \(s_p = \pm j\omega_n\), so \(\Re\{s\} = 0\).
+
+\subsection{}
+
+Plugging in, we have
+\begin{equation}
+    H(s) = \frac{1}{s^2 + 1}
+\end{equation}
+
+\subsection{}
+
+Taking the derivative of \(|H(\omega)|\) with respect to \(\omega\),
+\begin{align}
+    \dv{\omega} |H(\omega)| &= \omega_n^2 \dv{\omega} (\omega^2 + 2\zeta \omega_n \omega + \omega_n^2)^{-1} \\
+\end{align}
+
+\section{Transfer Function}
+
+\subsection{}
+
+Taking the Laplace transform on both sides of every equation yields
+\begin{align}
+    s Z_1(s) &= Z_2(s) \\
+    s Z_2(s) &= -a_0 Z_1(s) - a_1 Z_2(s) + X(s) \\
+    Y(s) &= b_0 Z_1(s) + b_1 Z_2(s) \\
+\end{align}
+We can substitute into \(Z_2(s)\) to be
+\begin{align}
+    s^2 Z_1(s) &= -a_0 Z_1(s) - a_1 s Z_1(s) + X(s) \\
+    \implies X(s) &= Z_1(s) (s^2 + a_1 s + a_0) \\
+    \implies H(s) &= \frac{Y(s)}{X(s)} = \frac{\cancel{Z_1(s)} (b_0 + b_1 s)}{\cancel{Z_1(s)} (s^2 + a_1 s + a_0)} = \frac{b_0 + b_1 s}{s^2 + a_1 s + a_0}
+\end{align}
+
+\subsection{}
+
+\begin{align}
+    s Z_1(s) &= -a_0 Z_2(s) + b_0 X(s) \\
+    s Z_2(s) &= Z_1(s) - a_1 Z_2(s) + b_1 X(s) \\
+    Y(s) &= Z_2(s)
+\end{align}
+Multiplying by \(s\) on both sides and substituting the first equation into the second,
+\begin{align}
+    s^2 Z_2(s) &= -a_0 Z_2(s) + b_0 X(s) - a_1 s Z_2(s) + b_1 s X(s) \\
+    \implies X(s) &= Z_2(s) \frac{s^2 + a_1 s + a_0}{b_0 + b_1 s} \\
+    \implies H(s) &= \frac{Y(s)}{X(s)} = \frac{b_0 + b_1 s}{s^2 + a_1 s + a_0}
+\end{align}
+
+\section{Second order LCCDE}
+
+\begin{align}
+    \dv[2]{y(t)}{t} + 3 \dv{y(t)}{t} + 2y(t) &= x(t) = e^{-3t} u(t) \\
+    s^2 Y(s) + 3 s Y(s) + 2Y(s) &= \frac{1}{s + 3} \\
+    \implies Y(s) &= \frac{1}{(s + 3) (s + 2) (s + 1)}
+\end{align}
+Then, by PFD,
+\begin{align}
+    \frac{1}{(s + 3) (s + 2) (s + 1)} &= \frac{A}{s + 3} + \frac{B}{s + 2} + \frac{C}{s + 1} \\
+    \implies 1 &= A (s + 2) (s + 1) + B (s + 3) (s + 1) + C (s + 3) (s + 2) \\
+    s = -1 &\implies C = \frac{1}{2} \\
+    s = -2 &\implies B = -1 \\
+    s = -3 &\implies A = \frac{1}{2} \\
+    \implies Y(s) &= \frac{1}{2 (s + 3)} - \frac{1}{s + 2} + \frac{1}{2 (s + 1)} \\
+    \implies y(t) &= u(t) \qty(\frac{1}{2} e^{-3t} - e^{-2t} + \frac{1}{2} e^{-t})
+\end{align}
+
+
+\end{document}
