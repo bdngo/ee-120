@@ -21,14 +21,11 @@
 
 \subsection{}
 
-\begin{align}
-    \L\{e^{-t} \cos(2t) u(t)\} &= \int_0^\infty e^{-t} \cos(2t) e^{-st} \, dt \\
-    &= \frac{1}{2} \int_0^\infty (e^{2t} + e^{-2t}) e^{-(s + 1) t} \, dt \\
-    &= \frac{1}{2} \int_0^\infty e^{-(s - 1) t} + e^{-(s + 3) t} \, dt \\
-    &= \frac{1}{2} \qty(\int_0^\infty e^t e^{-st} \, dt + \int_0^\infty e^{-3t} e^{-st} \, dt) \\
-    &= \frac{1}{2} \qty(\frac{1}{s - 1} + \frac{1}{s + 3})
-\end{align}
-and the ROC is \(\Re\{s\} > 1 \cap \Re\{s\} > -3 = \Re\{s\} > 1\).
+Using the frequency shift property,
+\begin{equation}
+    \L\{e^{-t} \cos(2t) u(t)\} = \frac{s + 1}{(s + 1)^2 + 4}
+\end{equation}
+and the ROC is \(\Re\{s + 1\} > 0\).
 
 \subsection{}
 
@@ -41,6 +38,7 @@ and the ROC is \(\Re\{s\} < 0\).
 
 \subsection{}
 
+Using the derivative property,
 \begin{equation}
     \L\{t \cos(t) u(t)\} = -\dv{s} \L\{\cos(t) u(t)\} = -\dv{s} \frac{s}{s^2 + 1} = -\frac{s^2 - 1}{(s^2 + 1)^2}
 \end{equation}
@@ -48,6 +46,7 @@ and the ROC is unchanged, or \(\Re\{s\} > 0\).
 
 \subsection{}
 
+Using the time-shifting property,
 \begin{equation}
     \L\{\delta(t - 1)\} = e^{-s}
 \end{equation}
@@ -86,10 +85,10 @@ By the \(s\)-domain derivative property,
 
 Finding the poles of \(H(s)\),
 \begin{equation}
-    s_p = -\zeta \omega_n \pm \sqrt{\zeta^2 \omega_n^2 - \omega_n^2} = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1} = -\omega_n (\zeta \pm \sqrt{\zeta^2 - 1})
+    s_p = -\zeta \omega_n \pm \sqrt{\zeta^2 \omega_n^2 - \omega_n^2} = -\zeta \omega_n \pm \omega_n \sqrt{\zeta^2 - 1} = \omega_n (-\zeta \pm \sqrt{\zeta^2 - 1}) = 0 \implies s_p = -\zeta \pm \sqrt{\zeta^2 - 1}
 \end{equation}
 In order to be stable, we must have \(\Re\{s_p\} < 0\).
-If \(\zeta\) is in the desired interval, then the term in the square root will be imaginary and thus irrelevant, so \(\Re\{s\} = -\omega_n \zeta\), which is always negative for \(\omega_n > 0\).
+If \(\zeta\) is in the desired interval, then the term in the square root will be imaginary and thus irrelevant, so \(\Re\{s\} = -\zeta\), which is always negative for our interval.
 
 \subsection{}
 
@@ -97,17 +96,40 @@ When \(\zeta = 0\), then \(s_p = \pm j\omega_n\), so \(\Re\{s\} = 0\).
 
 \subsection{}
 
-Plugging in, we have
+Plugging in \(\zeta\) and \(\omega_n\), we have
 \begin{equation}
     H(s) = \frac{1}{s^2 + 1}
 \end{equation}
+Then, consider the Laplace transform
+\begin{equation}
+    \frac{s}{(s^2 + 1)^2} \longleftrightarrow \frac{1}{2} t \sin(t) u(t)
+\end{equation}
+which is unbounded.
+Then, we can find \(X(s)\) to be
+\begin{equation}
+    X(s) = \frac{Y(s)}{H(s)} = \frac{s}{s^2 + 1} \implies x(t) = \cos(t) u(t)
+\end{equation}
+which is bounded.
 
 \subsection{}
 
-Taking the derivative of \(|H(\omega)|\) with respect to \(\omega\),
+Plugging in \(s = j \omega\),
 \begin{align}
-    \dv{\omega} |H(\omega)| &= \omega_n^2 \dv{\omega} (\omega^2 + 2\zeta \omega_n \omega + \omega_n^2)^{-1} \\
+    H(\omega) &= \frac{\omega_n^2}{-\omega^2 + 2 \zeta \omega_n j \omega + \omega_n^2} \\
+    |H(\omega)| &= \frac{\omega_n^2}{\sqrt{(\omega_n^2 - \omega^2)^2 + 4 \zeta^2 \omega_n^2 \omega^2}} \\
+    &= \omega_n^2 (\omega_n^4 - 2\omega_n^2 \omega^2 + \omega^4 + 4 \zeta^2 \omega_n^2 \omega^2)^{-\frac{1}{2}} \\
+    &= \omega_n^2 (\omega^4 + \omega_n^2 (4 \zeta^2 - 2) \omega^2 + \omega_n^4)^{-\frac{1}{2}}
 \end{align}
+Then, we can prove that \(|H(\omega)|\) is monotonically decreasing over the interval by finding the derivative of the term in the square root
+This is because the square root function is monotonically increasing, which is monotonically \emph{decreasing} in the denominator,
+\begin{equation}
+    \dv{\omega} (\omega^4 + \omega_n^2 (4 \zeta^2 - 2) \omega^2 + \omega_n^4) = 4\omega^3 + 2\omega_n^2 (4\zeta^2 - 2) \omega
+\end{equation}
+Plugging in \(\zeta \geqslant \frac{1}{\sqrt{2}}\),
+\begin{equation}
+    4\omega^3 + 2\omega_n^2 (4\zeta^2 - 2) \omega \geqslant 4\omega^3 + 2\omega_n^2 \cancelto{0}{\qty(4 \qty(\frac{1}{\sqrt{2}})^2 - 2)} \omega = 4\omega^3
+\end{equation}
+Thus, our frequency response is monotonically decreasing for \(\omega \geqslant 0\).
 
 \section{Transfer Function}
 
