@@ -164,6 +164,12 @@ Multiplying by \(s\) on both sides and substituting the first equation into the 
 
 \section{Second order LCCDE}
 
+Finding the homogenous solution,
+\begin{align}
+    \lambda^2 + 3\lambda + 2 &= 0 \implies \lambda = -2, -1
+    y_h(t) = c_0 e^{-2t} + c_1 e^{-t}
+\end{align}
+Finding the particular solution,
 \begin{align}
     \dv[2]{y(t)}{t} + 3 \dv{y(t)}{t} + 2y(t) &= x(t) = e^{-3t} u(t) \\
     s^2 Y(s) + 3 s Y(s) + 2Y(s) &= \frac{1}{s + 3} \\
@@ -177,8 +183,22 @@ Then, by PFD,
     s = -2 &\implies B = -1 \\
     s = -3 &\implies A = \frac{1}{2} \\
     \implies Y(s) &= \frac{1}{2 (s + 3)} - \frac{1}{s + 2} + \frac{1}{2 (s + 1)} \\
-    \implies y(t) &= u(t) \qty(\frac{1}{2} e^{-3t} - e^{-2t} + \frac{1}{2} e^{-t})
+    \implies y_p(t) &= u(t) \qty(\frac{1}{2} e^{-3t} - e^{-2t} + \frac{1}{2} e^{-t})
 \end{align}
-
+where the sidedness of the signal is assumed to be causal and thus right-handed.
+Combining the two,
+\begin{equation}
+    y(t) = c_0 e^{-2t} + c_1 e^{-t} + u(t) \qty(\frac{1}{2} e^{-3t} - e^{-2t} + \frac{1}{2} e^{-t})
+\end{equation}
+Since this is a causal system, we know that \(y(0) = \dv{t} y(0) = 0\).
+Plugging in,
+\begin{align}
+    0 &= c_0 + c_1 \\
+    0 &= -2 c_0 - c_1
+\end{align}
+which has the unique solution \(c_0 = c_1 = 0\), so our final system is
+\begin{equation}
+    y(t) = u(t) \qty(\frac{1}{2} e^{-3t} - e^{-2t} + \frac{1}{2} e^{-t})
+\end{equation}
 
 \end{document}
