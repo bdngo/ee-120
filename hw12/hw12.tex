@@ -75,6 +75,18 @@ By the \(s\)-domain derivative property,
     \L^{-1}\qty{\frac{s}{(s^2 + 1)^2}} = -\frac{1}{2} \dv{s} \frac{1}{s^2 + 1} = \frac{1}{2} t \sin(t) u(t)
 \end{equation}
 
+\subsection{}
+
+Using PFD,
+\begin{align}
+    \frac{s + 2}{z^2 + 7s + 12} &= \frac{A}{s + 3} + \frac{B}{s + 4} \\
+    s + 2 &= A (s + 4) + B (s + 3) \\
+    s = -4 &\implies B = 2 \\
+    s = -3 &\implies A = -1 \\
+    \implies \frac{s + 2}{z^2 + 7s + 12} &= -\frac{1}{s + 3} + \frac{2}{s + 4} \\
+    \implies \L^{-1}\qty{-\frac{1}{s + 3} + \frac{2}{s + 4}} &= (-e^{-3t} + 2e^{-4t}) u(t)
+\end{align}
+
 \section{LTI System Transfer Function}
 
 \begin{equation}
