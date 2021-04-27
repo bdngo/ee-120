@@ -20,10 +20,15 @@
 
 \section{Z-Transform Warmup}
 
-\begin{equation}
-    Z(z) = \frac{1 - 2z^{-1}}{1 + \frac{5}{2} z^{-1} + z^{-2}} = \frac{\cancel{1 - 2z^{-1}}}{\cancel{(1 - 2z^{-1})} (1 - \frac{1}{2} z^{-1})} = \frac{1}{1 - \frac{1}{2} z^{-1}}
-\end{equation}
-By duality, we get \(z[n] = \qty(\frac{1}{2})^n u[n]\).
+By PFD,
+\begin{align}
+    Z(z) &= \frac{1 - 2z^{-1}}{1 + \frac{5}{2} z^{-1} + z^{-2}} = \frac{1 - 2z^{-1}}{(1 + 2z^{-1}) (1 + \frac{1}{2} z^{-1})} = \frac{A}{1 + \frac{1}{2} z^{-1}} + \frac{B}{1 + 2z^{-1}} \\
+    1 - 2z^{-1} &= A (1 + 2z^{-1}) + B \qty(1 + \frac{1}{2} z^{-1}) \\
+    z = -2 &\implies B = \frac{8}{3} \\
+    z = -\frac{1}{2} &\implies A = -\frac{5}{3} \\
+    \implies \frac{1 - 2z^{-1}}{(1 + \frac{1}{2} z^{-1}) (1 + 2z^{-1})} &= -\frac{5}{3} \frac{1}{1 + \frac{1}{2} z^{-1}} + \frac{8}{3} \frac{1}{1 + 2z^{-1}} \\
+    \implies z[n] &= -\frac{8}{3} \qty(-\frac{1}{2})^n u[n] + \frac{5}{3} (-2)^n u[n]
+\end{align}
 
 \section{Second Order LCCDE}
 
