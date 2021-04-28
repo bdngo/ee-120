@@ -1,0 +1,75 @@
+\documentclass{article}
+\usepackage{eecstex}
+\usepackage{physics}
+
+\let\Re\relax
+\DeclareMathOperator{\Re}{\mathfrak{R}}
+\let\Im\relax
+\DeclareMathOperator{\Im}{\mathfrak{I}}
+\let\L\relax
+\DeclareMathOperator{\L}{\mathcal{L}}
+\DeclareMathOperator{\sinc}{sinc}
+\DeclareMathOperator{\F}{\mathcal{F}}
+\DeclareMathOperator{\down}{\downarrow}
+\DeclareMathOperator{\up}{\uparrow}
+
+\begin{document}
+
+\section{Laplace Transform}
+
+\begin{align}
+    \L\{x(t)\} &= \int_{\R} x(t) e^{-st} \, dt \\
+    \L\{\delta(t)\} &= 1 \\
+    \L\{u(t)\} &= \frac{1}{s} \\
+    \L\{e^{-at} u(t)\} &= \frac{1}{s + a}, \Re\{s\} > -a \\
+    \L\{-e^{-at} u(-t)\} &= \frac{1}{s + a}, \Re\{s\} < -a \\
+    \L\{t^n e^{-at} u(t)\} &= \frac{n!}{(s + a)^{n + 1}}, \Re\{s\} > -a \\
+    \L\{\cos(\omega_0 t) u(t)\} &= \frac{s}{s^2 + \omega_0^2}, \Re\{s\} > 0 \\
+    \L\{\sin(\omega_0 t) u(t)\} &= \frac{\omega_0}{s^2 + \omega_0^2}, \Re\{s\} > 0 \\
+    \L\{e^{s_0 t} x(t)\} &= X(s - s_0) \\
+    \L\{x(t - t_0)\} &= e^{-s t_0} X(s) \\
+    \L\qty{\dv[n]{t} x(t)} &= s^n X(s) \\
+    x(0) &= \lim_{s \to \infty} s X(s), x(t) = 0 \forall t < 0 \\
+    \lim_{t \to \infty} x(t) &= \lim_{s \to 0} s X(s), x(t) = 0 \forall t < 0 \\
+    X(s) &= \frac{\sum_{i \in [0, M]} b_i s^i}{\sum_{i \in [0, N]} a_i s^i} = A \frac{\prod_{i \in [1, M]} (s - z_i)}{\prod_{i \in [1, N]} (s - p_i)} = \sum_{i \in [1, N]} \frac{A_i}{s - p_i}
+\end{align}
+
+\subsection{Laplace Transform \& LTI Systems}
+
+\begin{itemize}
+    \item Series: \(H(s) = H_1(s) H_2(s)\)
+    \item Parallel: \(H(s) = H_1(s) + H_2(s)\)
+    \item Feedback: \(H(s) = \frac{H_1(s)}{1 + H_1(s) H_2(s)}\)
+\end{itemize}
+
+\section{Z Transforms}
+
+\begin{align}
+    \mathcal{Z}\{x[n]\} &= \sum_{n \in \Z} x[n] z^{-n} \\
+    \mathcal{Z}\{\delta[n]\} &= 1 \\
+    \mathcal{Z}\{a^n u[n]\} &= \frac{1}{1 - az^{-1}}, |z| > |a| \\
+    \mathcal{Z}\{-a^n u[-n - 1]\} &= \frac{1}{1 - az^{-1}}, |z| < |a| \\
+    X(z) &= \frac{\sum_{i \in [0, M]} b_i z^{-i}}{\sum_{i \in [0, N]} a_i z^{-i}} = \sum_{i \in [1, N]} \frac{A_i}{1 - d_i z^{-i}}, M < N \\
+    &= \sum_{r \in [0, M - N]} B_r z^{-r} + \sum_{i \in [1, N]} \frac{A_i}{1 - d_i z^{-i}}, M \geqslant N \\
+    \mathcal{Z}\{x[n - n_0]\} &= z^{-n_0} X(z) \\
+    \mathcal{Z}\{z_0^n x[n]\} &= X\qty(\frac{z}{z_0}) \\
+    \mathcal{Z}\qty{n x[n]} &= -z \dv{z} X(z) \\
+    x[0] &= \lim_{z \to \infty} X(z), x[n] = 0 \forall n < 0 \\
+\end{align}
+
+\section{Frequency Response \& Transfer Functions}
+
+\begin{align}
+    H(z) &= \frac{b_0 \prod_{k \in [1, M] (1 - c_k z^{-1})}}{a_0 \prod_{k \in [1, N] (1 - d_k z^{-1})}} \\
+    \implies |H(e^{j \omega})| &= \qty|\frac{b_0}{a_0}| \cdot \frac{\prod_{k \in [1, M] |1 - c_k e^{-j \omega}|}}{\prod_{k \in [1, N] |1 - d_k e^{-j \omega}|}} = \qty|\frac{b_0}{a_0}| \cdot \frac{\prod_{k \in [1, M] |e^{-j \omega} - c_k|}}{\prod_{k \in [1, N] |d_k e^{-j \omega} - d_k|}} \\
+\end{align}
+
+\subsection{Z Transform \& LTI Systems}
+
+\begin{itemize}
+    \item Series: \(H(z) = H_1(z) H_2(z)\)
+    \item Parallel: \(H(s) = H_1(z) + H_2(z)\)
+    \item Feedback: \(H(s) = \frac{H_1(z)}{1 + H_1(z) H_2(z)}\)
+\end{itemize}
+
+\end{document}
